@@ -14,6 +14,10 @@ def generate_reactor_reading(dataframe):
         reading[col] = np.random.normal(mean, std)
     return reading
 
-while True: # TODO make timer and send it to flink
-    record = generate_reactor_reading(df)
-    
+try:
+    while True: # TODO make timer and send it to flink
+        record = generate_reactor_reading(df)
+        record["timestamp"] = time.time()
+        time.sleep(0.1)
+except KeyboardInterrupt:
+    print("Simulation stopped.")
