@@ -21,3 +21,29 @@ try:
         time.sleep(0.1)
 except KeyboardInterrupt:
     print("Simulation stopped.")
+def main(): 
+    #Creates a command line that lets you specify how the simulation will run
+    parser = argparse.ArgumentParser(description="Micro Reactor Telemetry Simulator")
+    #Creates optional flags 
+    parser.add_argument("--host",default = "127.0.0.1", help = "host to bind the socket server")
+    parser.add_argument("--port",type=int, default=9999, help="Port for Flink to connect")
+    parser.add_agrugment(k"--rps", type = float, default=10.0, help= "Records per second (0=as fast as possible)")
+    args=parser.parse_args()
+
+#Interval of how often to send messages about data
+interval=1.0/args.rps if args.rps > 0 else 0.0
+
+#Create a TCP server. Creating a reliable connection, let's you restart the program, tells which IP/port to use. 
+#listen(1) starts listening for one connection at a time
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as srv:
+    srv.setsockpot(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind((args.host, args.port))
+    srv.listen(1)
+    print(f"[Simulator] Listing on {args.host}:{args.port}...Waiting for Flink to connect")
+    conn, addr = srv.accept()
+    print(*f"[Simulator] Connected by {addr}, streaming at {args.rps} records/sec")
+    try: 
+        while True: 
+            record=generate_reactor_reading(df)
+            record["timestamp"
+
