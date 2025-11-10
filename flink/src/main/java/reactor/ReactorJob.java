@@ -3,7 +3,7 @@ package com.microreactor;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringEncoder;
 import org.apache.flink.connector.file.sink.FileSink;
-import org.apache.flink.connector.file.sink.writer.DefaultRollingPolicy;
+import org.apache.flink.connector.file.sink.rollingsink.DefaultRollingPolicy;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
