@@ -42,22 +42,23 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as srv:
     print(f"[Simulator] Listing on {args.host}:{args.port}...Waiting for Flink to connect")
     conn, addr = srv.accept()
     print(*f"[Simulator] Connected by {addr}, streaming at {args.rps} records/sec")
-    try: 
         ###Stream Data Continuously, in the loop: generate one fake sensor recod, add a time stamp key, convert dictionary to JSON text, append a new line,
         ##send the encoded bytes to the connected Flink Client and pause on the chosen rps. 
-        while True: 
-            record=generate_reactor_reading(df)
-            record["timestamp"] = time.time()
-            line = json.dumps(record)+"\n"
-            conn.sendall(line.encode("utf-8"))
-            if interval >0:
-                time.sleep(interval)
-        except(BrokenPipeError, ConnectionResetError):
-            print("[Simulator] Flink disconnected.")
-        except KeyboardInterrupt: 
-            print("\n[Simulator] Simulation stopped by user.")
-        finally: 
-            conn.closed()
+     try:
+         while True:
+             record = generate_reactor_reading(df)
+             record["timestamp"] = time.time()
+             line = json.dumps(record) + "\n"
+             conn.sendall(line.encode("utf-8"))
+             if interval > 0:
+                 time.sleep(interval)
+     except (BrokenPipeError, ConnectionResetError):
+         print("[Simulator] Flink disconnected.")
+     except KeyboardInterrupt:
+         print("\n[Simulator] Simulation stopped by user.")
+     finally:
+         conn.close()
+
  #Ensures the program only runs main() when executed directly (not when imported into another script)           
 if__name__=="__main__":
     main()
