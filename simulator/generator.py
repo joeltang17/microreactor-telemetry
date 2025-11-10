@@ -27,7 +27,7 @@ def main():
     #Creates optional flags 
     parser.add_argument("--host",default = "127.0.0.1", help = "host to bind the socket server")
     parser.add_argument("--port",type=int, default=9999, help="Port for Flink to connect")
-    parser.add_agrugment(k"--rps", type = float, default=10.0, help= "Records per second (0=as fast as possible)")
+    parser.add_argument("--rps", type=float, default=10.0, help="Records per second (0 = as fast as possible)")
     args=parser.parse_args()
 
 #Interval of how often to send messages about data
