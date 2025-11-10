@@ -49,7 +49,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as srv:
             record=generate_reactor_reading(df)
             record["timestamp"] = time.time()
             line = json.dumps(record)+"\n"
-            conn.sendall(line.encode("utf-8))
+            conn.sendall(line.encode("utf-8"))
             if interval >0:
                 time.sleep(interval)
         except(BrokenPipeError, ConnectionResetError):
